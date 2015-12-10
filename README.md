@@ -1,6 +1,19 @@
 #Overview
 
-This is a preserved version of VecNet-CI Datawarehouse browser based on Django 1.5
+This is a preserved version of VecNet-CI Datawarehouse browser
+
+The Data Warehouse Browser is a collection of two tools, Dimensional Data Browser and Lookup Tables Browser
+
+**Dimensional Data**
+
+is where you can examine information that can be used in the creation of simulations. The topics covered there are 
+fairly diverse. From weather for many different locations, to how many bednets were covered in the last World Malaria 
+Report Household Survey. You can search through this information by country, date, and aggregate across these fields to 
+do some basic analysis.
+
+**Lookup Tables**
+
+is a place where you can look at information collected by experts on topics like bionomics.
 
 #System requirements
 
@@ -52,6 +65,41 @@ DATABASES = {
 		'PORT': '5432',
 	}
 }
+```
+
+# Production deployment checklist
+
+1. Change database to PostgreSQL in settings_local.py
+
+2. Set DEBUG to False in settings_local.py
+
+3. Generate new SECRET_KEY
+ 
+4. Change ALLOWED_HOSTS and ADMINS accordingly
+
+5. Set APP_ENV to 'production'
+
+# Enable VecNet SSO
+
+1. Install django-auth-pubtkt package
+`pip install django-auth-pubtkt`
+
+2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
+
+3. Enable DjangoAuthPubtkt middleware
+```MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django_auth_pubtkt.DjangoAuthPubtkt',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+) ```
+
+4. Set configuration options below
+```LOGIN_URL = "/sso/"
+TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
+TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 ```
 
 #Notes
