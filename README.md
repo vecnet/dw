@@ -94,7 +94,8 @@ DATABASES = {
     'django_auth_pubtkt.DjangoAuthPubtkt',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-) ```
+)
+```
 
 4. Set configuration options below
 ```LOGIN_URL = "/sso/"
