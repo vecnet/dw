@@ -87,7 +87,8 @@ DATABASES = {
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
 
 3. Enable DjangoAuthPubtkt middleware
-```MIDDLEWARE_CLASSES = (
+```python
+MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,7 +99,8 @@ DATABASES = {
 ```
 
 4. Set configuration options below
-```LOGIN_URL = "/sso/"
+```python
+LOGIN_URL = "/sso/"
 TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
 TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 ```
