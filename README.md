@@ -81,7 +81,7 @@ DATABASES = {
 
 # Enable VecNet SSO
 
-1. Install django-auth-pubtkt package
+1. Install django-auth-pubtkt package - NOTE: Additional steps are required on CentOS to install Crypto package
 `pip install django-auth-pubtkt`
 
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
