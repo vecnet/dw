@@ -95,6 +95,7 @@ Vagrant.configure(2) do |config|
      sudo -u postgres psql -c "CREATE USER dw WITH PASSWORD 'dw';"
      sudo -u postgres psql -c "ALTER USER dw WITH CREATEDB;"
      sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE dw to dw;"
+     # Enable PostGIS extension on this database
      sudo -u postgres psql dw -c "CREATE EXTENSION postgis;"
      sudo -u postgres psql dw -c "CREATE EXTENSION postgis_topology;"
      sudo systemctl restart postgresql-9.3
