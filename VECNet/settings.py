@@ -42,10 +42,10 @@ MANAGERS = ADMINS
 DEFAULT_DATABASE = {
     'ENGINE':  'django.contrib.gis.db.backends.postgis',
 #    'ENGINE':  'django.contrib.gis.db.backends.postgresql',
-    'NAME': "",
-    'USER': "",
-    'PASSWORD': "",
-    'HOST': "",
+    'NAME': "dw",
+    'USER': "dw",
+    'PASSWORD': "dw",
+    'HOST': "127.0.0.1",
     'PORT': 5432,
     'TEST_NAME': os.environ.get('VECNET_TEST_DB', 'test_dw')
 }
@@ -175,7 +175,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     # only needed for development/debug (manage.py sqldiff, shell_plus --use-ipython, ...)
-    'django_extensions',
     # need this for ApiKeyAuthentication
     'tastypie',
     # Installed app for geodjango
