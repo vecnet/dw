@@ -65,5 +65,6 @@ settings_local.py
 
 # Datawarehouse data can not be release publically at the moment
 dw.json
+dw.zip
 
 .vagrant
