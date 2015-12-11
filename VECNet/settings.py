@@ -41,6 +41,7 @@ MANAGERS = ADMINS
 
 DEFAULT_DATABASE = {
     'ENGINE':  'django.contrib.gis.db.backends.postgis',
+#    'ENGINE':  'django.contrib.gis.db.backends.postgresql',
     'NAME': "",
     'USER': "",
     'PASSWORD': "",

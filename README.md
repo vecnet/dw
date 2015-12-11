@@ -23,7 +23,7 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 1. Create database structures
     `./manage.py syncdb`
 
-2. Load data
+2. Load data. Database dump is in a separate (private) repository
     `./manage.py loaddata dw.json`
 
 3. Create an admin user
@@ -104,6 +104,10 @@ LOGIN_URL = "/sso/"
 TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
 TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 ```
+
+# Running project on Windows
+Line below may be required in settings_local.py
+```GEOS_LIBRARY_PATH = "c:\\Program Files\\GDAL\\geos_c.dll"```
 
 #Notes
 
