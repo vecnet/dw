@@ -23,8 +23,8 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 1. Create database structures
     `./manage.py syncdb`
 
-2. Load data. Database dump is in a separate (private) repository dw-data. Make sure you have enough RAM to load the dump
-(4Gb is not enough, 16Gb worked).
+2. Load data. Database dump is in box.net (private) folder https://notredame.app.box.com/files/0/f/5725509665/1/f_46462663401 
+Make sure you have enough RAM to load the dump (4Gb is not enough, 16Gb worked).
     `./manage.py loaddata dw.json`
 
 3. Create an admin user
