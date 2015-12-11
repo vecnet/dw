@@ -75,6 +75,8 @@ Vagrant.configure(2) do |config|
      sudo yum -y install http://lug.mtu.edu/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
      sudo yum -y install http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-redhat93-9.3-2.noarch.rpm
      sudo yum -y install vim python postgresql93-server python-psycopg2 numpy
+     # Necessary for django-auth-pubtkt
+     sudo yum -y install openssl-devel
      sudo yum -y install postgis2_93
      sudo /usr/pgsql-9.3/bin/postgresql93-setup initdb
      sudo yum -y install vim python python-psycopg2 numpy

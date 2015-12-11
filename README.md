@@ -23,7 +23,8 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 1. Create database structures
     `./manage.py syncdb`
 
-2. Load data. Database dump is in a separate (private) repository
+2. Load data. Database dump is in a separate (private) repository dw-data. Make sure you have enough RAM to load the dump
+(4Gb is not enough, 16Gb worked).
     `./manage.py loaddata dw.json`
 
 3. Create an admin user
@@ -32,6 +33,7 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 #Database
 
 This project requires Postgis extension to PostgreSQL database.
+Make sure custom SQL in datawarehouse/sql/dimdata.sql is loaded.
 
 #Using Vagrant
 
@@ -69,20 +71,23 @@ DATABASES = {
 
 # Production deployment checklist
 
-1. Change database to PostgreSQL in settings_local.py
+1. Set DEBUG to False in settings_local.py
 
-2. Set DEBUG to False in settings_local.py
-
-3. Generate new SECRET_KEY
+2. Generate new SECRET_KEY
  
-4. Change ALLOWED_HOSTS and ADMINS accordingly
+3. Change ALLOWED_HOSTS and ADMINS accordingly
 
-5. Set APP_ENV to 'production'
+4. Set APP_ENV to 'production'
 
 # Enable VecNet SSO
 
-1. Install django-auth-pubtkt package - NOTE: Additional steps are required on CentOS to install Crypto package
+1. Install django-auth-pubtkt package
+
+NOTE: on RedHat/CentOS install M2Crypto using command below first
+`env SWIG_FEATURES="-cpperraswarn -includeall -I/usr/include/openssl" pip install M2Crypto`
+
 `pip install django-auth-pubtkt`
+
 
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
 
@@ -94,13 +99,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django_auth_pubtkt.DjangoAuthPubtkt',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 ```
 
 4. Set configuration options below
 ```python
 LOGIN_URL = "/sso/"
+LOGOUT_URL="https://www.vecnet.org/index.php/log-out"
 TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
 TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 ```
