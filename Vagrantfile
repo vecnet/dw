@@ -84,20 +84,19 @@ Vagrant.configure(2) do |config|
      sudo python get-pip.py
      sudo rm get-pip.py
      sudo pip install -r /vagrant/requirements.txt
-     sudo postgresql-setup initdb
      sudo systemctl enable postgresql-9.3
      sudo sh -c 'echo "local   all             all                                     peer" > /var/lib/pgsql/9.3/data/pg_hba.conf'
      sudo sh -c 'echo "host    all             all             all    md5">> /var/lib/pgsql/9.3/data/pg_hba.conf'
      sudo sh -c "echo listen_addresses = \\'*\\' >> /var/lib/pgsql/9.3/data/postgresql.conf"
      sudo systemctl start postgresql-9.3
-     sudo -u postgres sh -c 'dropdb dw'
-     sudo -u postgres sh -c 'createdb dw'
-     sudo -u postgres psql -c "CREATE USER dw WITH PASSWORD 'dw';"
-     sudo -u postgres psql -c "ALTER USER dw WITH CREATEDB;"
-     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE dw to dw;"
+     sudo -u postgres sh -c '/usr/pgsql-9.3dropdb dw'
+     sudo -u postgres sh -c '/usr/pgsql-9.3createdb dw'
+     sudo -u postgres /usr/pgsql-9.3psql -c "CREATE USER dw WITH PASSWORD 'dw';"
+     sudo -u postgres /usr/pgsql-9.3psql -c "ALTER USER dw WITH CREATEDB;"
+     sudo -u postgres /usr/pgsql-9.3psql -c "GRANT ALL PRIVILEGES ON DATABASE dw to dw;"
      # Enable PostGIS extension on this database
-     sudo -u postgres psql dw -c "CREATE EXTENSION postgis;"
-     sudo -u postgres psql dw -c "CREATE EXTENSION postgis_topology;"
+     sudo -u postgres /usr/pgsql-9.3psql dw -c "CREATE EXTENSION postgis;"
+     sudo -u postgres /usr/pgsql-9.3psql dw -c "CREATE EXTENSION postgis_topology;"
      sudo systemctl restart postgresql-9.3
 
    SHELL
