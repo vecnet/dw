@@ -111,6 +111,12 @@ TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
 TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 ```
 
+5. Add the following lines to the urls.py file in the project for the site to redirect correctly:
+```python
+from django_auth_pubtkt.views import redirect_to_sso
+url(r'^sso/', redirect_to_sso),
+```
+
 # Running project on Windows
 Line below may be required in settings_local.py
 ```GEOS_LIBRARY_PATH = "c:\\Program Files\\GDAL\\geos_c.dll"```
