@@ -92,7 +92,8 @@ NOTE: on RedHat/CentOS install M2Crypto using command below first
 
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
 
-3. Enable DjangoAuthPubtkt middleware
+3. Enable DjangoAuthPubtkt middleware. Note if you choose to keep standard Django authentication backends, 
+then django_auth_pubtkt.DjangoAuthPubtkt should after them.
 ```python
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
