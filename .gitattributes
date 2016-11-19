@@ -1,3 +1,4 @@
 *.exe binary
 *.msi binary
 *.xls binary
+*.tar.gz binary
