@@ -122,6 +122,9 @@ url(r'^sso/', redirect_to_sso),
 Line below may be required in settings_local.py
 ```GEOS_LIBRARY_PATH = "c:\\Program Files\\GDAL\\geos_c.dll"```
 
+Path to GDAL library should be in PATH env variable:
+```PATH=%PATH%,C:\\Program Files\GDAL```
+
 #Notes
 
 1. ETL interface may be broken
