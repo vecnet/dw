@@ -6,8 +6,7 @@ The Data Warehouse Browser is a collection of two tools, Dimensional Data Browse
 
 **Dimensional Data**
 
-is where you can examine information that can be used in the creation of simulations. The topics covered there are 
-fairly diverse. From weather for many different locations, to how many bednets were covered in the last World Malaria 
+Data Warehouse. The topics covered there are fairly diverse. From weather for many different locations, to how many bednets were covered in the last World Malaria 
 Report Household Survey. You can search through this information by country, date, and aggregate across these fields to 
 do some basic analysis.
 
@@ -17,7 +16,7 @@ is a place where you can look at information collected by experts on topics like
 
 #System requirements
 
-This Django project has been tested on Windows 8 x64 and CentOS 7
+This Django project has been tested on Windows 10 x64 and CentOS 7
 
 #Quick Start Guide
 1. Create database structures
