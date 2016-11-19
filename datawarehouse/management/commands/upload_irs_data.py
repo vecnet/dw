@@ -1,6 +1,18 @@
-from datawarehouse.models import LutInterventionItnCoveragesAdmin1, LutInterventionIrsCoveragesAdmin1
-from django.core.management.base import BaseCommand
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 import csv
+
+from django.core.management.base import BaseCommand
+
+from datawarehouse.models import LutInterventionIrsCoveragesAdmin1
+
 
 class Command(BaseCommand):
     """
@@ -10,7 +22,6 @@ class Command(BaseCommand):
     nature of gis data. The rest of the class is dynamic and could be
     easily reused in other projects.
     """
-
 
     def handle(self, *args, **options):
         """This method is responsible for 'handling' the inputs.
@@ -30,7 +41,7 @@ class Command(BaseCommand):
             irsdata = csv.reader(csvfile, delimiter=",")
             for row in irsdata:
                 print row[1], row[0]
-                #print ".%s." % float(row[4])
+                # print ".%s." % float(row[4])
                 irs = LutInterventionIrsCoveragesAdmin1()
                 irs.gaul_code = int(row[0])
                 irs.country = row[2]

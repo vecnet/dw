@@ -1,3 +1,12 @@
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 from tastypie.resources import ModelResource
 from tastypie.api import Api
 from tastypie import fields
@@ -9,7 +18,6 @@ from datawarehouse.models import LutMapSiteid, LutSpecies, LutEntomologicalEndpo
 class LocationResource(ModelResource):
     """Tastypie resource for the Location table."""
 
-
     class Meta:
         queryset = DimLocation.objects.all()
         resource_name = 'DimLocation'
@@ -20,7 +28,6 @@ class LocationResource(ModelResource):
 
 class SourceResource(ModelResource):
     """Tastypie resource for the Source table."""
-
 
     class Meta:
         queryset = DimSource.objects.all()
@@ -39,17 +46,18 @@ class LutInterventionItnCoveragesAdmin1Resource(ModelResource):
         fields = ["id", "country", "province_name", "percent_of_children_under_5_years_sleeping_under_a_bednet",
                   "the_estimated_percent_households_with_itn",
                   "percent_itn_all", "year", "source", "source_url"]
-        #fields = ['source', 'file_uid']
+        # fields = ['source', 'file_uid']
         allowed_methods = ['get']
         include_resource_uri = False
         limit = 0
 
     def dehydrate(self, bundle):
         bundle.data['field_order'] = ("id,country,province_name,the_estimated_percent_households_with_itn,"
-                    "percent_of_children_under_5_years_sleeping_under_a_bednet,percent_itn_all,source,source_url,year")
-                                      #, "province_name", "itn_5s", "households_with_itn",
-                                      #"itn_all", "itn_year", "itn_source", "itn_source_url")
+                                      "percent_of_children_under_5_years_sleeping_under_a_bednet,percent_itn_all,source,source_url,year")
+        # , "province_name", "itn_5s", "households_with_itn",
+        # "itn_all", "itn_year", "itn_source", "itn_source_url")
         return bundle
+
 
 class LutInterventionIrsCoveragesAdmin1Resource(ModelResource):
     """Tastypie resource for the LutInterventionItnCoveragesAdmin1 table."""
@@ -59,14 +67,14 @@ class LutInterventionIrsCoveragesAdmin1Resource(ModelResource):
         resource_name = 'LutInterventionIrsCoveragesAdmin1'
         fields = ["id", "country", "province_name", "percent_of_the_population_protected_by_irs",
                   "year", "source", "source_url"]
-        #fields = ['source', 'file_uid']
+        # fields = ['source', 'file_uid']
         allowed_methods = ['get']
         include_resource_uri = False
         limit = 0
 
     def dehydrate(self, bundle):
         bundle.data['field_order'] = ("id,country,province_name,percent_of_the_population_protected_by_irs,"
-                    "source,source_url,year")
+                                      "source,source_url,year")
         return bundle
 
 
@@ -99,7 +107,6 @@ class SpeciesResource(ModelResource):
     """Tastypie resource for the Species table."""
     location_key = fields.ForeignKey(LocationResource, 'location_key', full=True)
 
-
     class Meta:
         queryset = LutSpecies.objects.all()
         resource_name = 'LutSpecies'
@@ -124,12 +131,14 @@ class SpeciesResource(ModelResource):
 
 class MapSiteIDResource(ModelResource):
     """Tastypie resource for the Malaria Atlas project Site ID table."""
+
     class Meta:
         queryset = LutMapSiteid.objects.all()
         resource_name = 'LutMapSiteid'
         allowed_methods = ['get']
         fields = ['geom']
-        
+
+
 Lookup = Api(api_name='Lookup')
 Lookup.register(LocationResource())
 Lookup.register(SpeciesResource())

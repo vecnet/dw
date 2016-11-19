@@ -1,17 +1,14 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-"""This module contains the IndexView class.
-"""
-
-# import statements
 from django.views.generic import TemplateView
+
 
 def IsIngestor(user):
     """Check if a user is an ingestor.
@@ -27,6 +24,7 @@ def IsIngestor(user):
     if user:
         return user.groups.filter(name='ingestor').exists()
     return False
+
 
 class IndexView(TemplateView):
     """Used to render the index page of the datawarehouse browser.
@@ -49,5 +47,3 @@ class IndexView(TemplateView):
             context['isIngestor'] = True
 
         return context  
-
-

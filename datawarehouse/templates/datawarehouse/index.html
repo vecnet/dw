@@ -1,14 +1,14 @@
 {% extends "datawarehouse/base.html" %}
 
 {% comment %}
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 {% endcomment %}
 
 {% load prettyLookups %}
@@ -24,7 +24,7 @@
             <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked" >
                 <li class="active"><a href="{% url "datawarehouse_index" %}"><i class="icon-info-sign"></i> Tool Overview<i class="icon-angle-right pull-right"></i></a></li>
                 <li class="disabled"><a>Data Tools</a></li>
-                <li><a href='cube'><i class="icon-th"></i>Dimensional Data </a></li>
+                <li><a href='{% url 'datawarehouse_cube' %}'><i class="icon-th"></i>Dimensional Data </a></li>
                 <li><a href='datawarehouse/alltables?tablename=LutSpecies'><i class="icon-table"></i>Lookup Tables</a></li>
                 {%  if isIngestor %}
                     <li><a href="etl/upload"><i class="icon-globe"></i>Create Mapping</a></li>
@@ -44,7 +44,11 @@
 
             <h4>Dimensional Data</h4>
             <p>
-                is where you can examine information that can be used in the creation of simulations.  The topics
+                Data Warehouse is a central repository of integrated data from several disparate sources.
+                They store current and historical data and are used for creating analytical reports for
+                knowledge workers throughout the enterprise.
+                <br>
+                The topics
                 covered there are fairly diverse.  From weather for many different locations, to how many bednets
                 were covered in the last World Malaria Report Household Survey.  You can search through this
                 information by country, date, and aggregate across these fields to do some basic analysis.

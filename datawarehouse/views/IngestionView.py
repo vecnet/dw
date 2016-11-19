@@ -1,45 +1,39 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
-"""This is the view used to ingest data.
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-This view is called to render, as well as process, the ingestion form.
-"""
-
-import json
 import csv
+import json
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+from django.db import IntegrityError
+from django.db.models.loading import get_app, get_models
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.generic import FormView
 
-from django.shortcuts import render
-from django.db import connections, IntegrityError
-from django.db.models.loading import get_app, get_models
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.files.storage import FileSystemStorage
-from django.core.files.base import ContentFile
-
-from datawarehouse.forms.ETLForms import IngestionForm
-
-from datawarehouse.models import DimUser, DimLocation, GisBaseTable
-from datawarehouse.exceptions.etlExceptions import TableDoesNotExist
 from VECNet.settings import MEDIA_ROOT
-
-from django.utils.decorators import method_decorator
+from datawarehouse.exceptions.etlExceptions import TableDoesNotExist
+from datawarehouse.forms.ETLForms import IngestionForm
+from datawarehouse.models import DimUser, DimLocation, GisBaseTable
 from lib.decorators import group_required
+
 
 class IngestionView(FormView):
     """
     This class defines the ingestion view. It inherits Django's generic 'FormView'.
     """
-    
+
     template_name = 'datawarehouse/ingestion.html'
     form_class = IngestionForm
-    
+
     @method_decorator(group_required("ingestor"))
     def dispatch(self, *args, **kwargs):
         """The main entry point for the view. It requires the user to
@@ -49,7 +43,7 @@ class IngestionView(FormView):
         :param **kwargs: Keyword argument list.
         """
         return super(IngestionView, self).dispatch(*args, **kwargs)
-    
+
     def form_valid(self, messages):
         """Method called upon successful form validation.
 
@@ -65,7 +59,7 @@ class IngestionView(FormView):
         ctx['messages'] = messages
         ctx['form'] = IngestionForm()
         return render(self.request, self.template_name, ctx)
-    
+
     def post(self, request, *args, **kwargs):
         """This method is called when a form is posted.
 
@@ -84,7 +78,7 @@ class IngestionView(FormView):
             return self.ingestData(self.request.FILES['inputFile'], self.request.FILES['mappingFile'])
         else:
             return self.form_invalid(form)
-    
+
     def ingestData(self, inputFile, mappingFile):
         """This method is used to ingest data into the database.
 
@@ -96,7 +90,7 @@ class IngestionView(FormView):
         :return: An http response object via the form_valid method.
         """
         # load the mapping file to json, and read the inputfile using python csv
-        f = inputFile        
+        f = inputFile
         m = mappingFile.read()
         data = json.loads(m)
         # first save the file to disk, then open using universal csv mode
@@ -112,7 +106,7 @@ class IngestionView(FormView):
         model = None
         counter = 0
         error_list = {}
-        
+
         try:
             for r in reader:
                 row = []
@@ -140,7 +134,7 @@ class IngestionView(FormView):
                                     sql_dict[key] = row[cols[value]]
                                 else:
                                     sql_dict[key] = self.fkeymap(value, row, cols)
-        
+
                     app = get_app('datawarehouse')
                     models = get_models(app)
                     # find the specified model and insert/update it
@@ -158,7 +152,7 @@ class IngestionView(FormView):
                         except Exception as e:
                             error_list['Row ' + str(counter)] = str(e)
                 counter += 1
-                
+
         except (IntegrityError, ObjectDoesNotExist, TableDoesNotExist) as e:
             return self.form_valid({'Message': 'row' + str(counter) + ', ' + str(e)})
         else:
@@ -175,7 +169,7 @@ class IngestionView(FormView):
 
         :return: A DimLocation object.
         """
-        
+
         tmpdict = {}
         # if lattitude and longitude were given, use a stored procedure to find the location
         # containing the given lat/lon. Return the corresponding location, creating it if necessary.
@@ -229,7 +223,7 @@ class IngestionView(FormView):
                 tmpdict['admin007'] = gisobj.s_name
             model, created = DimLocation.objects.get_or_create(**tmpdict)
             return model
-    
+
     def fkeymap(self, obj, row, cols):
         """This method is used to map a foreign key.
 
@@ -239,7 +233,7 @@ class IngestionView(FormView):
 
         :return: A model object.
         """
-        
+
         model = None
         app = get_app('datawarehouse')
         models = get_models(app)
@@ -250,14 +244,14 @@ class IngestionView(FormView):
                 break
         if model == None:
             raise TableDoesNotExist("The database table " + obj['table'] + " does not exist.")
-        
+
         sql_dict = {}
         # loop through the mapping object and create the object using data from the input file
         # if the value is an object, recursively call fkeymap. 
         for key, value in obj.iteritems():
             if key != 'table':
                 if isinstance(value, unicode):
-                    sql_dict[key] = (None if row[cols[value]] is "" else row[cols[value]]) 
+                    sql_dict[key] = (None if row[cols[value]] is "" else row[cols[value]])
                 else:
                     sql_dict[key] = (None if self.fkeymap(value, row, cols) is "" else self.fkeymap(value, row, cols))
         m, created = model.objects.get_or_create(**sql_dict)

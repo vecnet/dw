@@ -1,11 +1,11 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 """
 This model defines the forms used in the ETL views.
@@ -14,24 +14,27 @@ Each form in this file is used in either the mapping or ingest steps of the ETL 
 """
 
 # import statements
-from django.db.models.loading import get_model, get_app, get_models
+import cStringIO
+import requests
 from django import forms
-from datawarehouse.views.ETLView import ETLWizard
-from datawarehouse.forms.forms import dlform
-import requests, pdb, cStringIO
 from django.core.files.uploadedfile import InMemoryUploadedFile as IFile
+from django.db.models.loading import get_app, get_models
+
+from datawarehouse.forms.forms import dlform
+from datawarehouse.views.ETLView import ETLWizard
 
 URLHELP = "Instead of providing a local file, you may provide a URL. If you provide both, the local file will be used."
+
 
 class UploadForm(forms.Form):
     """
     This class defines the initial form in the mapping wizard. It is
     used to upload an input file to the server for processing.
     """
-    
+
     inputFile = forms.FileField(required=False)
     url = forms.URLField(help_text=URLHELP, required=False)
-    
+
     def clean(self):
         """
         This method over-rides the default clean method. It adds a check
@@ -55,21 +58,22 @@ class UploadForm(forms.Form):
             myfile = cStringIO.StringIO(r.content)
             myifile = IFile(myfile, 'upload-inputFile', 'tempfile', 'text/csv', len(r.content), None)
             self.files['upload-inputFile'] = myifile
-            self.data['upload-url'] = ''    # this line avoids infinite recursion, because full_clean calls clean
+            self.data['upload-url'] = ''  # this line avoids infinite recursion, because full_clean calls clean
             self.full_clean()
-            
+
         # return the cleaned data.
         return cleaned_data
 
-    
+
 class MappingForm(forms.Form):
     """
     This class defines the form for the mapping page. In this phase,
     a mapping object is defined by the user. A hidden input field is
     used to hold the created mapping object.
     """
-    
+
     mapping = forms.CharField(widget=forms.HiddenInput())
+
 
 class TableForm(forms.Form):
     """
@@ -77,14 +81,15 @@ class TableForm(forms.Form):
     in conjunction with the input file, is used to create a mapping object in
     the next step.
     """
-    
+
     # get the app, then the models in that app, then
     # corresponding database tables for those models
     app = get_app('datawarehouse')
     tableResults = [model._meta.db_table for model in get_models(app)]
     tableChoices = [(t, t) for t in tableResults]
     tables = forms.ChoiceField(widget=forms.Select(), choices=tableChoices)
-    
+
+
 #: This variable is used by the ETL wizard to determine the steps and their order.
 steps = (
     ('upload', UploadForm),
@@ -94,7 +99,8 @@ steps = (
 )
 
 """This variable is used in the urls file to correctly identify the form wizard."""
-upload_wizard_view = ETLWizard.as_view(steps, url_name = 'datawarehouse_etl', done_step_name='complete' )
+upload_wizard_view = ETLWizard.as_view(steps, url_name='datawarehouse_etl', done_step_name='complete')
+
 
 class IngestionForm(forms.Form):
     """
@@ -102,19 +108,19 @@ class IngestionForm(forms.Form):
     the input data and a field for the mapping object (which is responsible
     for determining how input columns relate to database columns).
     """
-    
+
     inputFile = forms.FileField(required=False)
     inputURL = forms.URLField(help_text=URLHELP, required=False)
     mappingFile = forms.FileField(required=False)
     mappingURL = forms.URLField(help_text=URLHELP, required=False)
-    
+
     def clean(self):
         cleaned_data = self.cleaned_data
         inputFile = cleaned_data.get("inputFile")
         inputURL = cleaned_data.get("inputURL")
         mappingFile = cleaned_data.get("mappingFile")
         mappingURL = cleaned_data.get("mappingURL")
-    
+
         # must have either a valid url or a valid file
         if not inputFile and not inputURL:
             raise forms.ValidationError("You must provide a valid input file or a valid input url.")
@@ -127,9 +133,9 @@ class IngestionForm(forms.Form):
             myfile = cStringIO.StringIO(r.content)
             myifile = IFile(myfile, 'inputFile', 'tempfile', 'text/csv', len(r.content), None)
             self.files['inputFile'] = myifile
-            self.data['inputURL'] = ''    # this line avoids infinite recursion, because full_clean calls clean
+            self.data['inputURL'] = ''  # this line avoids infinite recursion, because full_clean calls clean
             self.full_clean()
-        
+
         # must have either a valid url or a valid file
         if not mappingFile and not mappingURL:
             raise forms.ValidationError("You must provide a valid mapping file or a valid mapping url.")
@@ -142,8 +148,8 @@ class IngestionForm(forms.Form):
             mymapfile = cStringIO.StringIO(r.content)
             mymapifile = IFile(mymapfile, 'mappingFile', 'tempmapfile', 'text/csv', len(r.content), None)
             self.files['mappingFile'] = mymapifile
-            self.data['mappingURL'] = ''    # this line avoids infinite recursion, because full_clean calls clean
+            self.data['mappingURL'] = ''  # this line avoids infinite recursion, because full_clean calls clean
             self.full_clean()
-            
+
         # return the cleaned data.
         return cleaned_data

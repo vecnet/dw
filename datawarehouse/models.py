@@ -5,7 +5,8 @@
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
-# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 from django.contrib.gis.db import models
 from django.db import connections
 
@@ -14,7 +15,7 @@ dimension_prefix = 'dim_'
 
 
 class DimDate(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     timestamp = models.DateTimeField(null=True, blank=True)
 
     class Meta:
@@ -27,6 +28,7 @@ class DimDate(models.Model):
 class DimUser(models.Model):
     def __str__(self):
         return self.username
+
     username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=30, null=True, blank=True)
     last_name = models.CharField(max_length=30, null=True, blank=True)
@@ -50,7 +52,7 @@ class DimUser(models.Model):
 
 
 class DimLocation(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     admin007 = models.CharField(max_length=255, null=True, blank=True)
     admin0 = models.CharField(max_length=255, null=True, blank=True)
     admin1 = models.CharField(max_length=255, null=True, blank=True)
@@ -91,7 +93,9 @@ class DimLocation(models.Model):
 
         conn = connections['default']
         cursor = conn.cursor()
-        cursor.execute("SELECT id, s_name, admin_level FROM gis_base_table WHERE ST_CONTAINS(geom, ST_GeomFromText('point(%s %s)', 4326)) ORDER by admin_level DESC;", [long, lat])
+        cursor.execute(
+            "SELECT id, s_name, admin_level FROM gis_base_table WHERE ST_CONTAINS(geom, ST_GeomFromText('point(%s %s)', 4326)) ORDER by admin_level DESC;",
+            [long, lat])
         params = {}
         while True:
             # gis_base_table (supposedly) contains all location in the world. However, they stored by admin level
@@ -139,15 +143,16 @@ class DimLocation(models.Model):
 
 
 class DimSource(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     source = models.CharField(max_length=255)
     file_uid = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'dim_source'
 
+
 class DimSubgroup(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     subgroup = models.TextField()
 
     class Meta:
@@ -184,13 +189,16 @@ class LutSpecies(models.Model):
 
     class Meta:
         db_table = 'lut_species'
+
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in LutSpecies._meta.fields]
+
     def get_field(self, name):
         return getattr(self, name)
 
+
 class LutIntervention(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     source_key = models.ForeignKey(DimSource, db_column='source_key')
     intervention_name = models.TextField(blank=True)
     abbreviation = models.TextField(blank=True)
@@ -200,50 +208,58 @@ class LutIntervention(models.Model):
     class Meta:
         db_table = 'lut_intervention'
 
+
 class LutInterventionItnCoveragesAdmin1(models.Model):
     lookup = True
-    gaul_code = models.IntegerField()   # GAUL code of the admin1 district (province, state etc)
-    country = models.TextField()        # Country name
+    gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
+    country = models.TextField()  # Country name
     province_name = models.TextField()  # Name of the admin1 district
     # The estimated percent of children under 5 year sleeping under a bednet
     percent_of_children_under_5_years_sleeping_under_a_bednet = models.FloatField(blank=True, null=True)
-    the_estimated_percent_households_with_itn = models.FloatField(blank=True, null=True)  # The estimated percent of households with an insecticide-treated bednet
-    percent_itn_all = models.FloatField(blank=True, null=True)       #
-    year = models.IntegerField(blank=True, null=True)    # Year when ITN data was collected
-    source = models.TextField()     # Source of the ITN data
-    source_url = models.TextField(blank=True, null=True) # Link to ITN data source in the Digital Library
+    the_estimated_percent_households_with_itn = models.FloatField(blank=True,
+                                                                  null=True)  # The estimated percent of households with an insecticide-treated bednet
+    percent_itn_all = models.FloatField(blank=True, null=True)  #
+    year = models.IntegerField(blank=True, null=True)  # Year when ITN data was collected
+    source = models.TextField()  # Source of the ITN data
+    source_url = models.TextField(blank=True, null=True)  # Link to ITN data source in the Digital Library
 
     class Meta:
         db_table = 'lut_intervention_itn_coverage_admin1'
-        unique_together = ('country','province_name', "year")
+        unique_together = ('country', 'province_name', "year")
+
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in LutInterventionItnCoveragesAdmin1._meta.fields]
+
     def get_field(self, name):
         return getattr(self, name)
+
 
 class LutInterventionIrsCoveragesAdmin1(models.Model):
     lookup = True
-    gaul_code = models.IntegerField()     # GAUL code of the admin1 district (province, state etc)
-    country = models.TextField()          # Country name
-    province_name = models.TextField()    # Name of the admin1 district
+    gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
+    country = models.TextField()  # Country name
+    province_name = models.TextField()  # Name of the admin1 district
     percent_of_the_population_protected_by_irs = models.FloatField()  # The estimated percent of the population protected by IRS
-    year = models.IntegerField()      # Year when IRS data was collected
-    source = models.TextField()       # Source of the IRS data
-    source_url = models.TextField(blank=True, null=True) # Link to IRS data source in the Digital Library
+    year = models.IntegerField()  # Year when IRS data was collected
+    source = models.TextField()  # Source of the IRS data
+    source_url = models.TextField(blank=True, null=True)  # Link to IRS data source in the Digital Library
 
     class Meta:
         db_table = 'lut_intervention_irs_coverage_admin1'
-        unique_together = ('country','province_name', "year")
+        unique_together = ('country', 'province_name', "year")
+
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in LutInterventionIrsCoveragesAdmin1._meta.fields]
+
     def get_field(self, name):
         return getattr(self, name)
 
+
 class LutEntomologicalEndpoint(models.Model):
     lookup = True
-    #id = models.IntegerField(primary_key=True)
-    #intervention_key = models.ForeignKey(LutIntervention, db_column='intervention_key')
-    #source_key = models.ForeignKey(DimSource, db_column='source_key')
+    # id = models.IntegerField(primary_key=True)
+    # intervention_key = models.ForeignKey(LutIntervention, db_column='intervention_key')
+    # source_key = models.ForeignKey(DimSource, db_column='source_key')
     paradigms = models.CharField(max_length=255, blank=True)
     product_description = models.TextField(blank=True)
     impact_human_landing_rates = models.CharField(max_length=255, blank=True)
@@ -257,8 +273,8 @@ class LutEntomologicalEndpoint(models.Model):
     impact_sporozoite_rate = models.CharField(max_length=255, blank=True)
     impact_number_of_gravid_and_parous_females = models.CharField(max_length=255, blank=True)
     impact_rate_of_inhibition_of_adult_emergence = models.CharField(max_length=255, blank=True)
-    #impact_larval_and_pupal_density = models.CharField(max_length=255, blank=True)
-    #impact_lethality_to_f1_females = models.CharField(max_length=255, blank=True)
+    # impact_larval_and_pupal_density = models.CharField(max_length=255, blank=True)
+    # impact_lethality_to_f1_females = models.CharField(max_length=255, blank=True)
     possess_the_desired_trait = models.CharField(max_length=255, blank=True)
     establishment_within_a_cage_population = models.CharField(max_length=255, blank=True)
     mating_competitiveness = models.CharField(max_length=255, blank=True)
@@ -267,10 +283,13 @@ class LutEntomologicalEndpoint(models.Model):
 
     class Meta:
         db_table = 'lut_entomological_endpoint'
+
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in LutEntomologicalEndpoint._meta.fields]
+
     def get_field(self, name):
         return getattr(self, name)
+
 
 class DimWeatherStation(models.Model):
     source_key = models.IntegerField()
@@ -282,11 +301,13 @@ class DimWeatherStation(models.Model):
     class Meta:
         db_table = 'dim_weather_station'
 
+
 class DimType(models.Model):
     type = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'dim_type'
+
 
 class FactDemographics(models.Model):
     """
@@ -377,7 +398,7 @@ class FactWeather(models.Model):
 
 
 class FactWmrActOprtnlCvrg(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     any_1st_trtmnt_crses_dlvrd_incldng_act = models.FloatField(null=True, blank=True)
     act_trtmnt_crses_dlvrd = models.FloatField(null=True, blank=True)
     pcnt_any_am_cvrg_total = models.FloatField(null=True, blank=True)
@@ -394,7 +415,7 @@ class FactWmrActOprtnlCvrg(models.Model):
 
 
 class FactWmrHhSurveys(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     pcnt_hh_gte1_anet = models.FloatField(null=True, blank=True)
     pcnt_hh_gte1_etn = models.FloatField(null=True, blank=True)
     pcnt_hh_gte1_itn = models.FloatField(null=True, blank=True)
@@ -417,7 +438,7 @@ class FactWmrHhSurveys(models.Model):
 
 
 class FactWmrIrsOprtnlCvrg(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     nmbr_protected_irs = models.FloatField(null=True, blank=True)
     pcnt_irs_cvrg = models.FloatField(null=True, blank=True)
     location_key = models.ForeignKey(DimLocation, db_column='location_key')
@@ -432,7 +453,7 @@ class FactWmrIrsOprtnlCvrg(models.Model):
 
 
 class FactWmrItnOprtnlCvrg(models.Model):
-    #id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     nmbr_llin_sold_dlvrd = models.FloatField(null=True, blank=True)
     nmbr_itn_sold_dlvrd = models.FloatField(null=True, blank=True)
     nmbr_itn_and_llin_sold_dlvrd = models.FloatField(null=True, blank=True)
@@ -645,7 +666,6 @@ class FactHouseholds(models.Model):
 
 
 class GisBaseTable(models.Model):
-
     class Meta:
         db_table = 'gis_base_table'
 

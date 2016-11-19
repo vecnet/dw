@@ -1,23 +1,22 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
-__author__ = 'lselvy'
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 from unittest import TestCase
+
 from selenium import webdriver
-from VECNet.testrunner import get_browser
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import WebDriverException
+
+from VECNet.testrunner import get_browser
 
 """
 These are the selenium functional tests for the Data warehouse browser
 """
-
 
 
 class FunctionalTests_UI(TestCase):
@@ -28,7 +27,7 @@ class FunctionalTests_UI(TestCase):
     """
     # TODO: test the remove all links
 
-    test_type= "funct"
+    test_type = "funct"
     host = "http://localhost:8000"
     browser = "firefox"
 
@@ -105,7 +104,7 @@ class FunctionalTests_UI(TestCase):
 
         # Select Data Slicer tab and test drag and drop of dimension and measure
         self.browser.find_element_by_css_selector('[href="#RCT"]').click()
-        #self.browser.implicitly_wait(100)
+        # self.browser.implicitly_wait(100)
         self.assertEqual(
             self.browser.find_element_by_css_selector('#infobar .active').get_attribute('id'),
             "RCT",
@@ -136,8 +135,8 @@ class FunctionalTests_UI(TestCase):
                     meas.get_attribute('id')
                 )
             )
-            #self.browser.find_elements_by_css_selector('#RCT [id="{0}"]'.format(meas.get_attribute('id')))
-        self.browser.implicitly_wait(30)            # Reset the implicit wait time to 30 seconds
+            # self.browser.find_elements_by_css_selector('#RCT [id="{0}"]'.format(meas.get_attribute('id')))
+        self.browser.implicitly_wait(30)  # Reset the implicit wait time to 30 seconds
 
         # Test Slicing (make a slice using a specific example)
         test_slice = self.browser.find_element_by_css_selector('#dimensions #location')
@@ -174,10 +173,11 @@ class FunctionalTests_UI(TestCase):
             msg="Expected no datasets (dimensions or measures), found {0}".format(len(datasets))
         )
 
+
 class FunctionalTests_multiple_graphs_and_tables(TestCase):
     """This is a class defining tests for creating graphs and tables
     """
-    test_type= "funct"
+    test_type = "funct"
     host = "http://localhost:8000"
     browser = "firefox"
 
@@ -190,7 +190,7 @@ class FunctionalTests_multiple_graphs_and_tables(TestCase):
         init = get_browser(self.browser)
         self.browser = init()
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(30)                                            # Setup the implicit wait time
+        self.browser.implicitly_wait(30)  # Setup the implicit wait time
         self.browser.get(self.host + '/datawarehouse/cube')
         self.assertIn('Datawarehouse: Overview', self.browser.title,
                       msg="Title not found, page most likely did not load")
@@ -244,7 +244,7 @@ class FunctionalTests_multiple_graphs_and_tables(TestCase):
         self.assertEqual(
             len(dimension_names),
             len(tables),
-            msg="Expected {0} tables, got {1}".format(len(dimension_names),len(tables))
+            msg="Expected {0} tables, got {1}".format(len(dimension_names), len(tables))
         )
 
         for dim in dimension_names:
@@ -265,7 +265,7 @@ class FunctionalTests_multiple_graphs_and_tables(TestCase):
         self.assertEqual(
             len(dimension_names),
             len(tables),
-            msg="Expected {0} tables, got {1}".format(len(dimension_names),len(tables))
+            msg="Expected {0} tables, got {1}".format(len(dimension_names), len(tables))
         )
 
         # Now we try a second slice (this one on date)
@@ -283,13 +283,14 @@ class FunctionalTests_multiple_graphs_and_tables(TestCase):
         self.assertEqual(
             len(dimension_names),
             len(tables),
-            msg="Expected {0} tables, got {1}".format(len(dimension_names),len(tables))
+            msg="Expected {0} tables, got {1}".format(len(dimension_names), len(tables))
         )
+
 
 class FunctionalTest_single_graph_toolbar(TestCase):
     # TODO Add class docstring
     # TODO Add method docstring(s)
-    test_type= "funct"
+    test_type = "funct"
     host = "http://localhost:8000"
     browser = "firefox"
 

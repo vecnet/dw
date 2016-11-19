@@ -1,18 +1,16 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-# import statements
+import unittest
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
-import unittest, time, re
 
 
 class CheckAllBoxes(unittest.TestCase):
@@ -39,22 +37,26 @@ class CheckAllBoxes(unittest.TestCase):
         boxes = len(driver.find_elements_by_css_selector('.active .toggleBox'))
         while counter < boxes:
             driver.find_elements_by_css_selector('.active .toggleBox')[counter].click()
-            counter = counter+1
+            counter = counter + 1
 
     def checkAll(self):
         driver = self.driver
         driver.find_element_by_css_selector('.active .checkAll').click()
 
     def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException, e: return False
+        try:
+            self.driver.find_element(by=how, value=what)
+        except NoSuchElementException, e:
+            return False
         return True
-    
+
     def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException, e: return False
+        try:
+            self.driver.switch_to_alert()
+        except NoAlertPresentException, e:
+            return False
         return True
-    
+
     def close_alert_and_get_its_text(self):
         try:
             alert = self.driver.switch_to_alert()
@@ -64,11 +66,13 @@ class CheckAllBoxes(unittest.TestCase):
             else:
                 alert.dismiss()
             return alert_text
-        finally: self.accept_next_alert = True
-    
+        finally:
+            self.accept_next_alert = True
+
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
+
 
 if __name__ == "__main__":
     unittest.main()

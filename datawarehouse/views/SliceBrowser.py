@@ -1,19 +1,22 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
-from re import escape
-from datawarehouse.mixins import JSONMixin
-from datawarehouse.models import dimension_prefix, fact_prefix
-from datawarehouse.cubes_config import dwmodel, engine, Session
-from django.views.generic import TemplateView
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 from collections import OrderedDict
 
-class SliceBrowser(JSONMixin,TemplateView):
+from django.views.generic import TemplateView
+
+from datawarehouse.cubes_config import dwmodel, Session
+from datawarehouse.mixins import JSONMixin
+from datawarehouse.models import dimension_prefix
+
+
+class SliceBrowser(JSONMixin, TemplateView):
     """This is the interface to the cube database for querying columns of data
 
     The cubes abstraction of the database offers dimensions on which to cut,
@@ -32,10 +35,10 @@ class SliceBrowser(JSONMixin,TemplateView):
         context = super(SliceBrowser, self).get_context_data(**kwargs)
 
         self.return_list.clear()
-        cube_name=self.request.REQUEST['cube']
-        mode=self.request.REQUEST['mode']
+        cube_name = self.request.REQUEST['cube']
+        mode = self.request.REQUEST['mode']
 
-        cube=dwmodel.cube(dwmodel.cubes[cube_name])
+        cube = dwmodel.cube(dwmodel.cubes[cube_name])
 
         if mode == 'cube':
             dim_dict = OrderedDict()
@@ -61,35 +64,35 @@ class SliceBrowser(JSONMixin,TemplateView):
             self.return_list["ranges"] = range_dict
 
         elif mode == 'dimension':
-            dimension=self.request.REQUEST['dimension']
-            level=cube.dimension(dimension).levels[0]
-            self.return_list['meta']=level.attributes[0].name
-            self.return_list['label']=level.label
-            self.return_list['max_depth']=len(cube.dimension(dimension).levels)
-            choice_list = self.get_level_choices(level,dimension)
+            dimension = self.request.REQUEST['dimension']
+            level = cube.dimension(dimension).levels[0]
+            self.return_list['meta'] = level.attributes[0].name
+            self.return_list['label'] = level.label
+            self.return_list['max_depth'] = len(cube.dimension(dimension).levels)
+            choice_list = self.get_level_choices(level, dimension)
             level_list = OrderedDict()
             for choice in choice_list:
                 level_list[choice] = choice
             self.return_list["options"] = level_list
         else:
-            dimension=self.request.REQUEST['dimension']
+            dimension = self.request.REQUEST['dimension']
             parent_value = self.request.REQUEST['value']
             mode = self.request.REQUEST['mode']
             level_ndx = cube.dimension(dimension).level_names.index(mode)
             parent_name = cube.dimension(dimension).levels[level_ndx].attributes[0].name
-            level=cube.dimension(dimension).levels[level_ndx+1]
-            self.return_list['meta']=level.attributes[0].name
-            self.return_list['label']=level.label
-            self.return_list['depth']=level_ndx+1
-            self.return_list['max_depth']=len(cube.dimension(dimension).levels)
-            choice_list = self.get_level_choices(level,dimension,parent_name=parent_name,parent_value=parent_value)
+            level = cube.dimension(dimension).levels[level_ndx + 1]
+            self.return_list['meta'] = level.attributes[0].name
+            self.return_list['label'] = level.label
+            self.return_list['depth'] = level_ndx + 1
+            self.return_list['max_depth'] = len(cube.dimension(dimension).levels)
+            choice_list = self.get_level_choices(level, dimension, parent_name=parent_name, parent_value=parent_value)
             choice_list.sort()
             level_list = OrderedDict()
             for choice in choice_list:
-                level_list[choice]=choice
+                level_list[choice] = choice
             self.return_list["options"] = level_list
 
-    def get_level_choices(self,level,dimension,parent_name=None,parent_value=None):
+    def get_level_choices(self, level, dimension, parent_name=None, parent_value=None):
         """This gets the choices available for a given level.
 
         This grabs the list of the next available options on which to slice
@@ -102,7 +105,7 @@ class SliceBrowser(JSONMixin,TemplateView):
         """
 
         # append dimension prefix
-        dimension = dimension_prefix+dimension
+        dimension = dimension_prefix + dimension
 
         # The database name of the object:
         # if dimension == 'dim_date':
@@ -119,7 +122,7 @@ class SliceBrowser(JSONMixin,TemplateView):
         # If it is the first level, there is no parent, otherwise there is and we have to 
         # go through the tree to find the choices
         if parent_name is None and parent_value is None:
-            results = session.execute("select distinct(%s) from %s order by 1" % (db_name,dimension))
+            results = session.execute("select distinct(%s) from %s order by 1" % (db_name, dimension))
         else:
             results = session.execute("select distinct(%s) from %s  where %s='%s' and %s is not null order by 1" % (
                 db_name,

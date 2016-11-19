@@ -1,25 +1,19 @@
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Lawrence Selvy <Lawrence.Selvy.1@nd.edu>
-#   Zachary Torstrick <Zachary.R.Torstrick.1@nd.edu>
-########################################################################################################################
-"""
-This module contains the CubeView class.
-"""
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # import statements
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from datawarehouse.cubes_config import dwmodel
-from datawarehouse.mixins import JSONMixin
-from django.http import HttpResponse
-from django.core.servers.basehttp import FileWrapper
 from collections import OrderedDict
-import json
-import cStringIO
+
+from django.views.generic import TemplateView
+
+from datawarehouse.cubes_config import dwmodel
+
 
 class CubeView(TemplateView):
     """Used to render the index page of the datawarehouse browser.

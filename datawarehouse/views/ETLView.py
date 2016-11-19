@@ -1,17 +1,29 @@
-from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
-from django.core.files.storage import FileSystemStorage
-import os, json, cStringIO, pdb, csv
-from VECNet import settings
-from django.http import HttpResponse
-from django.core.servers.basehttp import FileWrapper
-from django.db.models.loading import get_model, get_app, get_models
-from django.db.models import AutoField, ForeignKey
-from VECNet.settings import MEDIA_ROOT
-from django.core.files.base import ContentFile
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from lib.decorators import group_required
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import cStringIO
+import csv
+import json
+import os
+
+from django.contrib.formtools.wizard.views import NamedUrlSessionWizardView
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+from django.core.servers.basehttp import FileWrapper
+from django.db.models import AutoField, ForeignKey
+from django.db.models.loading import get_app, get_models
+from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+
+from VECNet import settings
+from VECNet.settings import MEDIA_ROOT
+from lib.decorators import group_required
 
 
 # remove hardcode to user
