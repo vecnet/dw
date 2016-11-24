@@ -1,11 +1,11 @@
-2016/11/19 Updated Operational Coverage (IRS) and Operational Coverage (ACT) data marts
+2016/11/19 Updated Operational Coverage (IRS) and Operational Coverage (ACT) data marts, loaded data for 2012-2014
 File: wmr2015_annex4.csv, using load_new_irs.py and load_new_act.py script
 Source: created from wmr2015_annex4.xls - World Malaria Report 2015, annex 4
 (renamed certain country names, didn't load "Mainland" and "Zanzibar" as they are part of "United Republic of Tanzania")
 https://dl.vecnet.org/concern/generic_files/gh93h9255
 Assumption: "-" means "no data"
 
-2016/11/18 Updated Operational Coverage (ITN) data mart
+2016/11/18 Updated Operational Coverage (ITN) data mart, loaded data for 2012-2014
 File: wmr2015_annex4.csv, using load_new_itn.py script
 Source: created from wmr2015_annex4.xls - World Malaria Report 2015, annex 4
 (renamed certain country names, didn't load "Mainland" and "Zanzibar" as they are part of "United Republic of Tanzania")
