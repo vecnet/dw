@@ -19,6 +19,10 @@ is a place where you can look at information collected by experts on topics like
 This Django project has been tested on Windows 10 x64 and CentOS 7
 
 #Quick Start Guide
+0. Use setup.sh script to install system libraries and configure PostGIS
+
+    `sudo bash setup.sh`
+
 1. Create database structures
     `./manage.py syncdb`
 

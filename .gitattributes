@@ -2,3 +2,4 @@
 *.msi binary
 *.xls binary
 *.tar.gz binary
+*.sh text eol=lf

@@ -872,11 +872,14 @@ function create_output(type){
                                     sum_records += val;
                                 });
                                 table = document.createElement('table');
-                                $(table).append('<tr><th> ' + value['level'] + slice_val + ' </th><th> Records Used </th></tr>');
+                                $(table).append('<tr><th> ' + value['level'] + slice_val + ' </th><th> Records Used </th><td>Provenance</td></tr>');
                                 for(var i = 0; i < value[value['level'] + slice_val].length; i++){
                                     var table_text = '<tr><td>';
                                     table_text += value[value['level'] + slice_val][i] + '</td><td>';
-                                    table_text += value['record_count' + slice_val][i] + '</td></tr>';
+                                    table_text += value['record_count' + slice_val][i] + '</td>';
+                                    // Placeholder for links to the Digital Library
+                                    table_text += '<td></td>';
+                                    table_text += '</tr>';
                                     $(table).append(table_text);
                             }
                             }catch(TypeError){

@@ -71,33 +71,5 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
      pwd
-     # Enable EPEL repository
-     sudo yum -y install http://lug.mtu.edu/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-     sudo yum -y install http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-redhat93-9.3-2.noarch.rpm
-     sudo yum -y install vim python postgresql93-server python-psycopg2 numpy
-     # Necessary for django-auth-pubtkt
-     sudo yum -y install openssl-devel
-     sudo yum -y install postgis2_93
-     sudo /usr/pgsql-9.3/bin/postgresql93-setup initdb
-     sudo yum -y install vim python python-psycopg2 numpy
-     sudo curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-     sudo python get-pip.py
-     sudo rm get-pip.py
-     sudo pip install -r /vagrant/requirements.txt
-     sudo systemctl enable postgresql-9.3
-     sudo sh -c 'echo "local   all             all                                     peer" > /var/lib/pgsql/9.3/data/pg_hba.conf'
-     sudo sh -c 'echo "host    all             all             all    md5">> /var/lib/pgsql/9.3/data/pg_hba.conf'
-     sudo sh -c "echo listen_addresses = \\'*\\' >> /var/lib/pgsql/9.3/data/postgresql.conf"
-     sudo systemctl start postgresql-9.3
-     sudo -u postgres sh -c '/usr/pgsql-9.3dropdb dw'
-     sudo -u postgres sh -c '/usr/pgsql-9.3createdb dw'
-     sudo -u postgres /usr/pgsql-9.3/psql -c "CREATE USER dw WITH PASSWORD 'dw';"
-     sudo -u postgres /usr/pgsql-9.3/psql -c "ALTER USER dw WITH CREATEDB;"
-     sudo -u postgres /usr/pgsql-9.3/psql -c "GRANT ALL PRIVILEGES ON DATABASE dw to dw;"
-     # Enable PostGIS extension on this database
-     sudo -u postgres /usr/pgsql-9.3/psql dw -c "CREATE EXTENSION postgis;"
-     sudo -u postgres /usr/pgsql-9.3/psql dw -c "CREATE EXTENSION postgis_topology;"
-     sudo systemctl restart postgresql-9.3
-
    SHELL
 end
