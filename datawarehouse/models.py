@@ -6,7 +6,6 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/
-
 from django.contrib.gis.db import models
 from django.db import connections
 
@@ -171,6 +170,8 @@ class LutMapSiteid(models.Model):
 
 class LutSpecies(models.Model):
     lookup = True
+    table_name = "Species Bionomics"
+
     species = models.CharField(max_length=255, blank=True)
     form = models.CharField(max_length=255, blank=True)
     vector_status = models.CharField(max_length=255, blank=True)
@@ -190,8 +191,9 @@ class LutSpecies(models.Model):
     class Meta:
         db_table = 'lut_species'
 
+    @classmethod
     def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in LutSpecies._meta.fields]
+        return [field.name for field in LutSpecies._meta.fields]
 
     def get_field(self, name):
         return getattr(self, name)
@@ -211,6 +213,8 @@ class LutIntervention(models.Model):
 
 class LutInterventionItnCoveragesAdmin1(models.Model):
     lookup = True
+    table_name = "ITN Coverage in Africa"
+
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
     province_name = models.TextField()  # Name of the admin1 district
@@ -227,8 +231,9 @@ class LutInterventionItnCoveragesAdmin1(models.Model):
         db_table = 'lut_intervention_itn_coverage_admin1'
         unique_together = ('country', 'province_name', "year")
 
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in LutInterventionItnCoveragesAdmin1._meta.fields]
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in LutInterventionItnCoveragesAdmin1._meta.fields]
 
     def get_field(self, name):
         return getattr(self, name)
@@ -236,6 +241,9 @@ class LutInterventionItnCoveragesAdmin1(models.Model):
 
 class LutInterventionIrsCoveragesAdmin1(models.Model):
     lookup = True
+    table_name = "IRS Coverage in Africa"
+
+
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
     province_name = models.TextField()  # Name of the admin1 district
@@ -248,8 +256,9 @@ class LutInterventionIrsCoveragesAdmin1(models.Model):
         db_table = 'lut_intervention_irs_coverage_admin1'
         unique_together = ('country', 'province_name', "year")
 
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in LutInterventionIrsCoveragesAdmin1._meta.fields]
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in LutInterventionIrsCoveragesAdmin1._meta.fields]
 
     def get_field(self, name):
         return getattr(self, name)
@@ -257,6 +266,8 @@ class LutInterventionIrsCoveragesAdmin1(models.Model):
 
 class LutEntomologicalEndpoint(models.Model):
     lookup = True
+    table_name = "Entomological Parameters"
+
     # id = models.IntegerField(primary_key=True)
     # intervention_key = models.ForeignKey(LutIntervention, db_column='intervention_key')
     # source_key = models.ForeignKey(DimSource, db_column='source_key')
@@ -284,11 +295,74 @@ class LutEntomologicalEndpoint(models.Model):
     class Meta:
         db_table = 'lut_entomological_endpoint'
 
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in LutEntomologicalEndpoint._meta.fields]
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in LutEntomologicalEndpoint._meta.fields]
 
     def get_field(self, name):
         return getattr(self, name)
+
+
+class LutRepresentativeWorkflowParameters(models.Model):
+    lookup = True
+    table_name = "Representative Workflow Parameters"
+
+    species = models.CharField(max_length=255, blank=True)
+    larval_habitat = models.CharField(max_length=255, blank=True)
+    indoor_feeding_fraction = models.CharField(max_length=255, blank=True)
+    average_daily_biting_rate = models.CharField(max_length=255, blank=True)
+    anthropophily = models.CharField(max_length=255, blank=True)
+    adult_life_expectancy = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        db_table = 'lut_repr_workflow_parameters'
+
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in cls._meta.fields]
+
+
+class LutVectorSpeciesParameter(models.Model):
+    lookup = True
+    table_name = "Vector Species Parameters"
+
+    species = models.CharField(max_length=255, blank=True)
+    acquire_modifier = models.CharField(max_length=255, blank=True)
+    adult_life_expectancy = models.CharField(max_length=255, blank=True)
+    anthropophily = models.CharField(max_length=255, blank=True)
+    transmission_rate = models.CharField(max_length=255, blank=True)
+    habitat_type = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        db_table = 'lut_vector_species_parameter'
+
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in cls._meta.fields]
+
+class LutVectorSpeciesSensitivityParams(models.Model):
+    lookup = True
+    table_name = "Vector Species Sensitivity Parameters"
+
+    species = models.CharField(max_length=255, blank=True)
+    immature_duration = models.CharField(max_length=255, blank=True, default="2")
+    indoor_feeding_fraction = models.CharField(max_length=255, blank=True)
+    infected_arrhenius_1 = models.CharField(max_length=255, blank=True, default="117+e9")
+    infected_arrhenius_2 = models.CharField(max_length=255, blank=True, default="8336")
+    infected_egg_batch_factor = models.CharField(max_length=255, blank=True, default="0.8")
+    infectious_human_feed_mortality_factor = models.CharField(max_length=255, blank=True, default="1.1")
+    aquatic_arrhenius_1 = models.CharField(max_length=255, blank=True, default="842e+8")
+    aquatic_arrhenius_2 = models.CharField(max_length=255, blank=True, default="8250")
+    aquatic_mortality_rate = models.CharField(max_length=255, blank=True, default="0.1")
+    days_between_feeds = models.CharField(max_length=255, blank=True, default="2")
+    egg_batch_size = models.CharField(max_length=255, blank=True, default="120")
+
+    class Meta:
+        db_table = 'lut_vector_sensitivity_parameters'
+
+    @classmethod
+    def get_fields(cls):
+        return [field.name for field in cls._meta.fields]
 
 
 class DimWeatherStation(models.Model):

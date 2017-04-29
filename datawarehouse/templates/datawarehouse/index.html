@@ -11,8 +11,6 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 {% endcomment %}
 
-{% load prettyLookups %}
-
 {% block page_title %}
     Data Warehouse: Overview
 {% endblock %}
@@ -25,7 +23,7 @@
                 <li class="active"><a href="{% url "datawarehouse_index" %}"><i class="icon-info-sign"></i> Tool Overview<i class="icon-angle-right pull-right"></i></a></li>
                 <li class="disabled"><a>Data Tools</a></li>
                 <li><a href='{% url 'datawarehouse_cube' %}'><i class="icon-th"></i>Dimensional Data </a></li>
-                <li><a href='datawarehouse/alltables?tablename=LutSpecies'><i class="icon-table"></i>Lookup Tables</a></li>
+                <li><a href='{% url 'datawarehouse_lookuptables' %}'><i class="icon-table"></i>Lookup Tables</a></li>
                 {%  if isIngestor %}
                     <li><a href="etl/upload"><i class="icon-globe"></i>Create Mapping</a></li>
                     <li><a href="ingestion"><i class="icon-download-alt"></i>Ingest Data</a></li>

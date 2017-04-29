@@ -57,3 +57,8 @@ def prettyModelName(val):
         tmp = "IRS Coverage in Africa"
     return tmp
 register.filter(prettyModelName)
+
+
+def get_field(row, field_name):
+    return getattr(row, field_name, None)
+register.filter(get_field)
