@@ -555,7 +555,7 @@ function processResults(target,data,depth,dimension){
         cut_div = document.createElement('div');
         $(cut_div).addClass('form-horizontal');
         select = document.createElement('select');
-        $(select).addClass('text-right pull-left slicer')
+        $(select).addClass('text-right pull-left slicer');
         if(target != '#RCTCut'){
             $(cut_div).addClass('span3');
             $(select).addClass('range');
@@ -909,7 +909,8 @@ function create_output(type){
  * This will also filter the y and x data so that only those datasets are shows*/
 function parseDataToChart(element,data,xData,yData){
     var xTitle = "";
-    var Title = data['level'];
+    // Removed chart title per request from Arif
+    var Title = "Chart"; // data['level'];
 
     //yData = measure_array(data);
      /*for (key in data) {             // Parse the returned data into x and y

@@ -43,16 +43,17 @@ function getChart(Element, cType, cTitle, xData, xTitle, yData, yTitle){
             categories: xData,
             labels:{
                 rotation:270,
+                // step:2,
                 formatter: function(){
                     var data_index = xData.indexOf(this.value);
                     var chart_index = this.axis.tickPositions.indexOf(data_index);
                     var numcat = this.axis.tickPositions.length;
-                    if(numcat < 50){
+                    if(numcat < 30){
                         // If there are less than 50, inlcude all labels
                         return this.value;
                     }else{
-                        var numtoskip = Math.round(numcat/50);
-                        if(chart_index % numtoskip) {
+                        var numtoskip = Math.round(numcat/30);
+                        if((chart_index % numtoskip) == 0)  {
                             return this.value;
                         }else{
                             return;
