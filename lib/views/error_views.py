@@ -7,7 +7,6 @@ from lib.templatetags.base_extras import set_notification
 import smtplib
 from datetime import datetime
 from django.conf import settings
-import json
 
 @requires_csrf_token
 def view_server_error(request, template_name='500.html'):

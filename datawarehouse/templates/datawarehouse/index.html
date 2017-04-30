@@ -24,10 +24,6 @@
                 <li class="disabled"><a>Data Tools</a></li>
                 <li><a href='{% url 'datawarehouse_cube' %}'><i class="icon-th"></i>Dimensional Data </a></li>
                 <li><a href='{% url 'datawarehouse_lookuptables' %}'><i class="icon-table"></i>Lookup Tables</a></li>
-                {%  if isIngestor %}
-                    <li><a href="etl/upload"><i class="icon-globe"></i>Create Mapping</a></li>
-                    <li><a href="ingestion"><i class="icon-download-alt"></i>Ingest Data</a></li>
-                {% endif %}
             </ul>
         </div>
 

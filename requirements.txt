@@ -1,7 +1,6 @@
 Django>=1.5.1,<1.6
 SQLAlchemy==0.8.0
 cubes==0.10.2
-django-tastypie==0.11.0
 mock==1.0.1
 psycopg2>=2.4.6
 python-dateutil==1.5
