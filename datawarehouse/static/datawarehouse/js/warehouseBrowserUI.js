@@ -45,7 +45,7 @@ $(document).ready(function(){
 
     $('#Slice_list').droppable({
         drop: sliceDrop
-    })
+    });
 
 
     //Prepare the helpbox
