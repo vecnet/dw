@@ -18,6 +18,17 @@ is a place where you can look at information collected by experts on topics like
 
 This Django project has been tested on Windows 10 x64 and CentOS 7
 
+#Technology
+
+* Python 2.7
+* Django 1.11
+* cubes 0.10.2
+* jQuery 1.8 (Dimensional data) / jQuery 1.9 (Lookup tables)
+* jQuery DataTables
+* RedHat Linux 7
+* PostgreSQL 9.3
+* PostGIS
+
 #Quick Start Guide
 0. Use setup.sh script to install system libraries and configure PostGIS
 

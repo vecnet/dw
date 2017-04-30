@@ -35,8 +35,8 @@ class SliceBrowser(JSONMixin, TemplateView):
         context = super(SliceBrowser, self).get_context_data(**kwargs)
 
         self.return_list.clear()
-        cube_name = self.request.REQUEST['cube']
-        mode = self.request.REQUEST['mode']
+        cube_name = self.request.GET['cube']
+        mode = self.request.GET['mode']
 
         cube = dwmodel.cube(dwmodel.cubes[cube_name])
 
@@ -64,7 +64,7 @@ class SliceBrowser(JSONMixin, TemplateView):
             self.return_list["ranges"] = range_dict
 
         elif mode == 'dimension':
-            dimension = self.request.REQUEST['dimension']
+            dimension = self.request.GET['dimension']
             level = cube.dimension(dimension).levels[0]
             self.return_list['meta'] = level.attributes[0].name
             self.return_list['label'] = level.label
@@ -75,9 +75,9 @@ class SliceBrowser(JSONMixin, TemplateView):
                 level_list[choice] = choice
             self.return_list["options"] = level_list
         else:
-            dimension = self.request.REQUEST['dimension']
-            parent_value = self.request.REQUEST['value']
-            mode = self.request.REQUEST['mode']
+            dimension = self.request.GET['dimension']
+            parent_value = self.request.GET['value']
+            mode = self.request.GET['mode']
             level_ndx = cube.dimension(dimension).level_names.index(mode)
             parent_name = cube.dimension(dimension).levels[level_ndx].attributes[0].name
             level = cube.dimension(dimension).levels[level_ndx + 1]
@@ -114,7 +114,7 @@ class SliceBrowser(JSONMixin, TemplateView):
         # else:
         db_name = level.attributes[0].name
 
-        print db_name
+        print("get_level_choices", db_name)
 
         # Create the session:
         session = Session()
@@ -129,7 +129,7 @@ class SliceBrowser(JSONMixin, TemplateView):
                 dimension,
                 parent_name,
                 parent_value,
-                db_name
+                db_name,
             ))
 
         # Package it up in a list to be sent back

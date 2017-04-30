@@ -1,9 +1,18 @@
-# Django settings for VECNet project.
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 import os
 from . import app_env
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(PROJECT_PATH, os.pardir)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Used to construct absolute URLs for the site (e.g., for its REST APIs)
 SITE_ROOT_URL = 'https://ci-qa.vecnet.org/'
@@ -123,19 +132,35 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    'django.core.context_processors.request',
-    'lib.context_processors.app_env',
-    'lib.context_processors.app_dim_user'
-)
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     "django.contrib.auth.context_processors.auth",
+#     "django.core.context_processors.debug",
+#     "django.core.context_processors.i18n",
+#     "django.core.context_processors.media",
+#     "django.core.context_processors.static",
+#     "django.core.context_processors.tz",
+#     "django.contrib.messages.context_processors.messages",
+#     'django.core.context_processors.request',
+# )
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'website', 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'lib.context_processors.app_env',
+                'lib.context_processors.app_dim_user',
+            ],
+        },
+    },
+]
 # AUTHENTICATION_BACKENDS = (
 #     'django.contrib.auth.backends.RemoteUserBackend',
 # )
@@ -168,9 +193,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
-    # only needed for development/debug (manage.py sqldiff, shell_plus --use-ipython, ...)
-    # need this for ApiKeyAuthentication
-    'tastypie',
     # Installed app for geodjango
     'django.contrib.gis',
     # Uncomment the next line to enable admin documentation:
