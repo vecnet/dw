@@ -29,7 +29,7 @@ This Django project has been tested on Windows 10 x64 and CentOS 7
 * jQuery DataTables
 * RedHat Linux 7
 * PostgreSQL 9.3
-* PostGIS
+* PostGIS 2.93
 
 # Quick Start Guide
 0. Use setup.sh script to install system libraries and configure PostGIS
@@ -95,6 +95,14 @@ DATABASES = {
 3. Change ALLOWED_HOSTS and ADMINS accordingly
 
 4. Set APP_ENV to 'production'
+
+5. Generate new database password and update settings_local.py accordingly:
+
+```bash
+sudo -u postgres /usr/pgsql-9.3/bin/psql -c "ALTER ROLE dw WITH PASSWORD 'hu8jmn3'"
+```
+
+6. All set!
 
 # Enable VecNet SSO
 
