@@ -1,4 +1,4 @@
-#Overview
+# Overview
 
 This is a preserved version of VecNet-CI Data Warehouse Browser
 
@@ -16,11 +16,11 @@ do some basic analysis.
 
 is a place where you can look at information collected by experts on topics like bionomics.
 
-#System requirements
+# System requirements
 
 This Django project has been tested on Windows 10 x64 and CentOS 7
 
-#Technology
+# Technology
 
 * Python 2.7
 * Django 1.11
@@ -31,7 +31,7 @@ This Django project has been tested on Windows 10 x64 and CentOS 7
 * PostgreSQL 9.3
 * PostGIS
 
-#Quick Start Guide
+# Quick Start Guide
 0. Use setup.sh script to install system libraries and configure PostGIS
 
     `sudo bash setup.sh`
@@ -46,13 +46,13 @@ This Django project has been tested on Windows 10 x64 and CentOS 7
 3. Create an admin user
    `./manage.py createsuperuser`
 
-#Database
+# Database
 
 If you want to rebuild the database from scratch, keep this in mind
 1. This project requires Postgis extension to PostgreSQL database.
 2. Make sure custom SQL in datawarehouse/sql/dimdata.sql is loaded.
 
-#Using Vagrant
+# Using Vagrant
 
 1. Create Virtualbox VM `vagrant up`. It may take a while when starting VM for the first time
 
