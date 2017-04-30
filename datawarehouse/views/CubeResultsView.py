@@ -77,7 +77,6 @@ class CubeResultsView(JSONMixin, TemplateView):
     It is used to generate results of a datawarehouse request. The results
     are returned as a JSON object.
     """
-    queryset = None                                                         #: determines the queryset to use
     error = {}                                                              #: error flags
     
     def get_context_data(self, **kwargs):
@@ -292,6 +291,7 @@ class CubeResultsView(JSONMixin, TemplateView):
                 self.return_list = results                                  # set the return_list, used by JSONMixin
         else:
             self.return_list = self.error                               # if errors were present, return them
+            return
             
         conn.close()
 

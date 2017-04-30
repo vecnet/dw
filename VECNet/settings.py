@@ -15,7 +15,7 @@ PROJECT_ROOT = os.path.join(PROJECT_PATH, os.pardir)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Used to construct absolute URLs for the site (e.g., for its REST APIs)
-SITE_ROOT_URL = 'https://ci-qa.vecnet.org/'
+SITE_ROOT_URL = 'https://dw.vecnet.org/'
 
 try:
     from .settings_local import APP_ENV
