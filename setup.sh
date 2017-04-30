@@ -39,8 +39,11 @@ sudo -u postgres /usr/pgsql-9.3/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE dw
 # Enable PostGIS extension on this database
 sudo -u postgres /usr/pgsql-9.3/bin/psql dw -c "CREATE EXTENSION postgis;"
 sudo -u postgres /usr/pgsql-9.3/bin/psql dw -c "CREATE EXTENSION postgis_topology;"
-systemctl restart postgresql-9.3
+# Permissions to access schema created by PostGIS
+sudo -u postgres /usr/pgsql-9.3/bin/psql -d dw -c "GRANT ALL PRIVILEGES ON SCHEMA topology to dw;"
+sudo -u postgres /usr/pgsql-9.3/bin/psql -d dw -c "GRANT ALL PRIVILEGES ON ALL TABLES in SCHEMA topology to dw;"
 
+systemctl restart postgresql-9.3
 
 curl "https://bootstrap.pypa.io/get-pip.py" | python
 sudo pip install -r /vagrant/requirements.txt

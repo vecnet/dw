@@ -278,6 +278,8 @@ LOGIN_EXEMPT_URLS = ['ts_emod/', 'datawarehouse/', 'cifer/', 'om_validate/' '500
 # Use SERVER_MAINTENANCE_MESSAGE variable to set site-wide notification
 # SERVER_MAINTENANCE_MESSAGE = "EMOD jobs submission system is being upgraded.<Br> Please do not not submit new EMOD jobs at this time."
 
+DATABASE_BACKUP_DIR = MEDIA_ROOT
+
 try:
     # Optional settings specific to the local system (for example, custom
     # settings on a developer's system).  The file "settings_local.py" is
