@@ -26,7 +26,6 @@ if not app_env.set(APP_ENV):
     raise ValueError('Invalid value for APP_ENV: "%s"' % APP_ENV)
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 # LOG_FILE
 try:
@@ -127,10 +126,10 @@ STATICFILES_FINDERS = (
 SECRET_KEY = ')t#af)a+(*+ers*%dukl495s&&&kkksjq0h+'
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
 #     "django.contrib.auth.context_processors.auth",
@@ -182,7 +181,7 @@ ROOT_URLCONF = 'VECNet.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'VECNet.wsgi.application'
 
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', '../lib', 'templates').replace('\\', '/'),)
+# TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', '../lib', 'templates').replace('\\', '/'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
