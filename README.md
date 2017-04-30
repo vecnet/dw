@@ -2,7 +2,7 @@
 
 This is a preserved version of VecNet-CI Data Warehouse Browser
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.PNG)
 
 The Data Warehouse Browser is a collection of two tools, Dimensional Data Browser and Lookup Tables Browser
 
