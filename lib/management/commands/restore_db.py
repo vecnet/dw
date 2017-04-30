@@ -26,7 +26,7 @@ def restore(filename):
     elif engine == "django.db.backends.postgresql_psycopg2" or engine == "django.db.backends.postgresql" \
             or engine == "django.contrib.gis.db.backends.postgis":
         # Database should exist and have permission for the user to create tables on it
-        command = "pg_restore -h %s -p %s -U %s -F c -d %s '%s'" % \
+        command = "pg_restore -h %s -p %s -U %s -F c -d %s \"%s\"" % \
                   (db.connections.databases["default"]["HOST"],
                    str(db.connections.databases["default"].get("PORT", "5432")),
                    db.connections.databases["default"]["USER"],

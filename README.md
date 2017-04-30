@@ -1,6 +1,8 @@
 #Overview
 
-This is a preserved version of VecNet-CI Datawarehouse browser
+This is a preserved version of VecNet-CI Data Warehouse Browser
+
+![Screenshot](screenshot.png)
 
 The Data Warehouse Browser is a collection of two tools, Dimensional Data Browser and Lookup Tables Browser
 
@@ -34,21 +36,21 @@ This Django project has been tested on Windows 10 x64 and CentOS 7
 
     `sudo bash setup.sh`
 
-1. Create database structures
-    `./manage.py syncdb`
-
-2. Load data. Database dump is in box.net (private) folder https://notredame.app.box.com/files/0/f/5725509665/1/f_46462663401
+1. Load data. Database dump is in box.net (private) folder https://notredame.app.box.com/files/0/f/5725509665/1/f_46462663401
  and in CurateND - https://curate.nd.edu/concern/datasets/pg15bc40m5q
-Make sure you have enough RAM to load the dump (4Gb is not enough, 16Gb worked).
-    `./manage.py loaddata dw.json`
+    `./manage.py restore_db dw.pg_dump`
+
+2. Run migrate command
+    `./manage.py migrate`
 
 3. Create an admin user
    `./manage.py createsuperuser`
 
 #Database
 
-This project requires Postgis extension to PostgreSQL database.
-Make sure custom SQL in datawarehouse/sql/dimdata.sql is loaded.
+If you want to rebuild the database from scratch, keep this in mind
+1. This project requires Postgis extension to PostgreSQL database.
+2. Make sure custom SQL in datawarehouse/sql/dimdata.sql is loaded.
 
 #Using Vagrant
 
@@ -138,7 +140,3 @@ Line below may be required in settings_local.py
 
 Path to GDAL library should be in PATH env variable:
 ```PATH=%PATH%,C:\\Program Files\GDAL```
-
-#Notes
-
-1. ETL interface may be broken

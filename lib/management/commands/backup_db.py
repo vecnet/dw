@@ -14,6 +14,7 @@ import shutil
 import time
 import os
 import subprocess
+import datetime
 
 
 def backup(label, user):
@@ -53,7 +54,7 @@ def backup(label, user):
                 raise
 
         filename = os.path.join(settings.DATABASE_BACKUP_DIR, filename)
-        command = "pg_dump -h %s -p %s -U %s -F c -f '%s' %s" % \
+        command = "pg_dump -h %s -p %s -U %s -F c -f \"%s\" %s" % \
                   (db.connections.databases["default"]["HOST"],
                    str(db.connections.databases["default"].get("PORT", "5432")),
                    db.connections.databases["default"]["USER"],
@@ -74,9 +75,11 @@ def backup(label, user):
 class Command(BaseCommand):
     def handle(self, *args, **options):
         print("Starting %s database backup" % db.connections.databases["default"]["NAME"])
+        start_time = time.time()
         result, message = backup("Backup", os.environ.get("USER", ""))
         if result:
-            print("Backup complete, filename %s" % message)
+            duration = int(time.time() - start_time)
+            print("Backup complete (%s), filename %s" % (datetime.timedelta(seconds=duration), message,))
         else:
             # If a management command is called from code through call_command,
             # it's up to you to catch the exception when needed.
