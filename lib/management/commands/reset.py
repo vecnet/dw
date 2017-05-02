@@ -15,7 +15,7 @@ from django.core.management import call_command
 from django.db import connection
 from django import db
 
-from website.management.commands.backup_db import backup
+from lib.management.commands.backup_db import backup
 
 
 class Command(BaseCommand):
@@ -68,7 +68,9 @@ class Command(BaseCommand):
             # http://dba.stackexchange.com/questions/1285/how-do-i-list-all-databases-and-tables-using-psql
             # Note you can't drop database here - because connection.cursor() is using it!
             # Thus deleting all tables and re-creating them using migrate command later
-            cursor.execute("SELECT table_schema,table_name FROM information_schema.tables ORDER BY table_schema, table_name;")  # noqa
+            cursor.execute(
+                "SELECT table_schema,table_name FROM information_schema.tables ORDER BY table_schema, table_name;"
+            )
             tables = cursor.fetchall()
             for table in tables:
                 if table[0] == "public":
