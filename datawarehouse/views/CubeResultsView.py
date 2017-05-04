@@ -77,7 +77,6 @@ class CubeResultsView(JSONMixin, TemplateView):
     It is used to generate results of a datawarehouse request. The results
     are returned as a JSON object.
     """
-    queryset = None                                                         #: determines the queryset to use
     error = {}                                                              #: error flags
     
     def get_context_data(self, **kwargs):
@@ -100,16 +99,16 @@ class CubeResultsView(JSONMixin, TemplateView):
         self.error.clear()          # make sure self.error is intially empty
         
         # fetch data from GET
-        if 'num_slices' in self.request.GET:                                
-            num_slices = self.request.REQUEST['num_slices']
+        if 'num_slices' in self.request.GET:
+            num_slices = self.request.GET['num_slices']
         if 'cube' in self.request.GET:
-            cube_name = self.request.REQUEST['cube']
+            cube_name = self.request.GET['cube']
         if 'drilldim' in self.request.GET:
-            aggregations = self.request.REQUEST['drilldim'].split("|")
+            aggregations = self.request.GET['drilldim'].split("|")
         if 'drillpath' in self.request.GET:
-            agg_paths = self.request.REQUEST['drillpath'].split("|")
+            agg_paths = self.request.GET['drillpath'].split("|")
         if 'mode' in self.request.GET:
-            mode = self.request.REQUEST['mode']
+            mode = self.request.GET['mode']
         
         # check for errors in the GET data
         if aggregations == None or aggregations == "":
@@ -137,9 +136,9 @@ class CubeResultsView(JSONMixin, TemplateView):
 
             #get the path and dimension
             if 'dimension_'+str(x) in self.request.GET:
-                dimension=(self.request.REQUEST['dimension_'+str(x)])   # get the requested dimension
+                dimension=(self.request.GET['dimension_'+str(x)])   # get the requested dimension
             if 'path_'+str(x) in self.request.GET:
-                path=(self.request.REQUEST['path_'+str(x)].split('-'))  # get the requested path
+                path=(self.request.GET['path_'+str(x)].split('-'))  # get the requested path
 
             # check for errors
             if dimension == None or dimension == "":
@@ -161,18 +160,6 @@ class CubeResultsView(JSONMixin, TemplateView):
                     hashDict[dimension].append(cut)
                 else:
                     hashDict[dimension] = [cut]
-
-        # if 'REMOTE_USER' in self.request.META and self.request.META['REMOTE_USER'] != "":
-        #     user = self.request.META['REMOTE_USER']
-        # else:
-        #     user = None
-        #
-        # if user:
-        #     cut = cubes.SetCut('testuser',['public',user])
-        #     hashDict['user'] = [cut]
-        # else:
-        #     cut = cubes.PointCut('testuser', ['public'])
-        #     hashDict['user'] = [cut]
 
         for k, v in hashDict.iteritems():               # store cuts by dimension
             hashList.append(v)
@@ -304,6 +291,7 @@ class CubeResultsView(JSONMixin, TemplateView):
                 self.return_list = results                                  # set the return_list, used by JSONMixin
         else:
             self.return_list = self.error                               # if errors were present, return them
+            return
             
         conn.close()
 

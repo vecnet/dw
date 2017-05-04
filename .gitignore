@@ -67,5 +67,6 @@ settings_local.py
 dw.json
 dw.zip
 dw*.tar.gz
+data/dw.pg_dump
 
 .vagrant

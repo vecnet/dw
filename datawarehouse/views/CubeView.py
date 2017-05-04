@@ -32,10 +32,6 @@ class CubeView(TemplateView):
         context = super(CubeView, self).get_context_data(**kwargs)
         context['nav_button'] = 0
 
-        if self.test:
-            context['test'] = True
-        else:
-            context['test'] = False
         cube_dict = OrderedDict()                                       # create an empty dictionary to hold the cube names
         for cube in dwmodel.cubes:
             print str(cube)

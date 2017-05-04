@@ -1,0 +1,82 @@
+{% extends "datawarehouse/base.html" %}
+
+{% load datawarehouse_tags %}
+
+{% comment %}
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+{% endcomment %}
+
+{% block page_title %}
+    Data Warehouse: Look Up Tables
+{% endblock %}
+
+
+{% block javascript1 %}
+    <link href="/static/lib/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/lib/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+{% endblock %}
+
+{% block javascript2 %}
+{% endblock %}
+
+
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}datawarehouse/DataTables/media/css/demo_table.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}datawarehouse/TableTools/media/css/TableTools.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}datawarehouse/css/dataTablesBootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}datawarehouse/css/luresults.css" />
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function(){
+            $('#myTable').DataTable();
+        });
+    </script>
+{% endblock %}
+
+{% block main_content %}
+    <div style="padding: 20px">
+        <ul class="breadcrumb">
+            <li><a href="/datawarehouse">Data Warehouse Browser</a><span class="divider">/</span></li>
+            <li class="active">Lookup Tables</li>
+        </ul>
+        <img src="{{STATIC_URL}}datawarehouse/img/ajax-loader.gif" id="loading-indicator" style="display:none;" />
+            <ul class="" id="luTables">
+                {% for table_name, obj in tables.items %}
+                <li><a href="{% url "datawarehouse_lookuptables" table_name %}">{{ obj.table_name }}</a></li>
+            {% endfor %}
+            </ul>
+            <h2>{{ klass.table_name }}</h2>
+            <table id="myTable" class="display cell-border">
+                <thead>
+                    <tr>
+                        {% for item in klass.get_fields %}
+                        <th>{{ item|prettyLookup }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in objects %}
+                    <tr>
+                        {% for field in klass.get_fields %}
+                        <td>{{ row|get_field:field }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+{% endblock %}

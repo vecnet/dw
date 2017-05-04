@@ -1,3 +1,12 @@
+# This file is part of the VecNet Data Warehouse Browser.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/dw
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 from django import http
 from django.shortcuts import render, redirect
 from django.template import (loader, TemplateDoesNotExist)
@@ -7,7 +16,6 @@ from lib.templatetags.base_extras import set_notification
 import smtplib
 from datetime import datetime
 from django.conf import settings
-import json
 
 @requires_csrf_token
 def view_server_error(request, template_name='500.html'):
