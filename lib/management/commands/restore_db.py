@@ -33,6 +33,7 @@ def restore(filename):
                    db.connections.databases["default"]["NAME"],
                    filename,
                    )
+        print("Executing command: %s" % command)
         ret_code = subprocess.call(command,
                                    env=dict(os.environ, PGPASSWORD=db.connections.databases["default"]["PASSWORD"]),
                                    shell=True)

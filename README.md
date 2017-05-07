@@ -148,3 +148,17 @@ Line below may be required in settings_local.py
 
 Path to GDAL library should be in PATH env variable:
 ```PATH=%PATH%,C:\\Program Files\GDAL```
+
+# Notes
+
+Restore the database from the dump (restore_db might not work because insufficient permissions)
+
+```bash
+sudo -u postgres pg_restore -d dw /opt/portal/dw.vecnet.org/VECNet/media/Backup-dwadmin-2017-05-07_182803.pg_dump
+```
+
+All priveledges to the access the database
+```bash
+sudo -u postgres psql dw -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to dw;"
+sudo -u postgres psql dw -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA topology to dw;"
+```
