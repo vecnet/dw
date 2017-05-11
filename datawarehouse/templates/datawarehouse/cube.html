@@ -65,10 +65,37 @@
                     representation of the data in the data warehouse."><icon class="icon-info-sign"></icon></a>
                 </p>
                 <select class="" id="cube" autocomplete="off">
+{#                        <option value="Default" selected="selected">"Please Select a Cube"</option>#}
+{#                    {% for cube_val,cube_name in cube_dict.items %}#}
+{#                        <option value={{cube_val}}>{{cube_name}}</option>#}
+{#                    {% endfor %}#}
+                    {% comment %}
+{#                  Hardcoding cubes per Arif's request #}
+                    Remove items “Operational Coverage (ACT)”, “Operational Coverage (IRS)”,
+                    and “Operational Coverage (ITN)”. Instead, please have a label “Interventions”, and under it, have
+                    a sub-menu with 3 labels as "Artemisinin-based Combination Therapy (ACT)", "Indoor Residual Spraying
+                    (IRS)", and "Insecticide-Treated Net (ITN)"
+                    {% endcomment %}
                         <option value="Default" selected="selected">"Please Select a Cube"</option>
-                    {% for cube_val,cube_name in cube_dict.items %}
-                        <option value={{cube_val}}>{{cube_name}}</option>
-                    {% endfor %}
+
+                        <option value="demographics">Demographics</option>
+
+                        <option value="gross_national_income">Gross National Income</option>
+
+                        <option value="wmr_hh_surveys">Household Surveys</option>
+
+                        <option value="households">Households</option>
+                        <optgroup label="Interventions">
+                        <option value="wmr_act_oprtnl_cvrg">Artemisinin-based Combination Therapy (ACT)</option>
+
+                        <option value="wmr_irs_oprtnl_cvrg">Indoor Residual Spraying (IRS)</option>
+
+                        <option value="wmr_itn_oprtnl_cvrg">Insecticide-Treated Net (ITN)</option>
+                        </optgroup>
+
+                        <option value="weather">Weather</option>
+
+
                 </select>
                 <p><strong>Dimensions </strong>
                     <a data-toggle="tooltip" title="A dimension is an independent entity that serves as an

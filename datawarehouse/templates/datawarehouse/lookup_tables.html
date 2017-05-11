@@ -72,7 +72,7 @@
                     {% for row in objects %}
                     <tr>
                         {% for field in klass.get_fields %}
-                        <td>{{ row|get_field:field }}</td>
+                        <td>{{ row|get_field:field|default:"-" }}</td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
