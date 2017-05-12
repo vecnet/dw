@@ -7,7 +7,7 @@ function update
     pip install -r requirements.txt
     python manage.py migrate
     python manage.py collectstatic --noinput
-    touch wsgi.py
+    touch VECNet/wsgi.py
     python manage.py check --deploy
     echo "--------------- Update complete ---------------"
 }
