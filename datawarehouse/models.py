@@ -171,6 +171,7 @@ class LutMapSiteid(models.Model):
 class LutSpecies(models.Model):
     lookup = True
     table_name = "Species Bionomics"
+    description = "This lookup table specifies vector species bionomics parameter values."
 
     species = models.CharField(max_length=255, blank=True)
     form = models.CharField(max_length=255, blank=True)
@@ -214,6 +215,7 @@ class LutIntervention(models.Model):
 class LutInterventionItnCoveragesAdmin1(models.Model):
     lookup = True
     table_name = "ITN Coverage in Africa"
+    description = "ITN Coverage in Africa."
 
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
@@ -242,7 +244,7 @@ class LutInterventionItnCoveragesAdmin1(models.Model):
 class LutInterventionIrsCoveragesAdmin1(models.Model):
     lookup = True
     table_name = "IRS Coverage in Africa"
-
+    description = "IRS Coverage in Africa."
 
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
@@ -267,6 +269,7 @@ class LutInterventionIrsCoveragesAdmin1(models.Model):
 class LutEntomologicalEndpoint(models.Model):
     lookup = True
     table_name = "Entomological Parameters"
+    description = "This lookup table outlines the major measurable entomological endpoints impacted by vector control paradigms."
 
     # id = models.IntegerField(primary_key=True)
     # intervention_key = models.ForeignKey(LutIntervention, db_column='intervention_key')
@@ -306,6 +309,7 @@ class LutEntomologicalEndpoint(models.Model):
 class LutRepresentativeWorkflowParameters(models.Model):
     lookup = True
     table_name = "Representative Workflow Parameters"
+    description = "Vector species parameters to calibrate models in Transmission Simulator"
 
     species = models.CharField(max_length=255, blank=True)
     larval_habitat = models.CharField(max_length=255, blank=True)
@@ -325,6 +329,7 @@ class LutRepresentativeWorkflowParameters(models.Model):
 class LutVectorSpeciesParameter(models.Model):
     lookup = True
     table_name = "Vector Species Parameters"
+    description = "Vector Species Parameters for EMOD model"
 
     species = models.CharField(max_length=255, blank=True)
     acquire_modifier = models.CharField(max_length=255, blank=True)
@@ -343,6 +348,7 @@ class LutVectorSpeciesParameter(models.Model):
 class LutVectorSpeciesSensitivityParams(models.Model):
     lookup = True
     table_name = "Vector Species Sensitivity Parameters"
+    description = "Additional vector species parameters for EMOD model"
 
     species = models.CharField(max_length=255, blank=True)
     immature_duration = models.CharField(max_length=255, blank=True, default="2")
