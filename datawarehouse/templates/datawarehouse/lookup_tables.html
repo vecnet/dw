@@ -58,14 +58,16 @@
             <ul class="" id="luTables">
                 {% for table_name, obj in tables.items %}
                 <li>
-                <a data-toggle="tooltip" title="{{ obj.description|default:"" }}">
-                    <icon class="icon-info-sign"></icon>
-                </a>
+
                     <a href="{% url "datawarehouse_lookuptables" table_name %}">{{ obj.table_name }}</a>
+                    <a data-toggle="tooltip" title="{{ obj.description|default:"" }}">
+                        <icon class="icon-info-sign"></icon>
+                    </a>
                 </li>
             {% endfor %}
             </ul>
             <h2>{{ klass.table_name }}</h2>
+            <p>{{ klass.description }}</p>
             <table id="myTable" class="display cell-border">
                 <thead>
                     <tr>

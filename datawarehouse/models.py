@@ -215,7 +215,7 @@ class LutIntervention(models.Model):
 class LutInterventionItnCoveragesAdmin1(models.Model):
     lookup = True
     table_name = "ITN Coverage in Africa"
-    description = "ITN Coverage in Africa."
+    description = "ITN Coverage in Africa based on World Malaria Report and Demographic and Health Survey data."
 
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
@@ -244,7 +244,7 @@ class LutInterventionItnCoveragesAdmin1(models.Model):
 class LutInterventionIrsCoveragesAdmin1(models.Model):
     lookup = True
     table_name = "IRS Coverage in Africa"
-    description = "IRS Coverage in Africa."
+    description = "IRS Coverage in Africa based on World Malaria Report and Demographic and Health Survey data."
 
     gaul_code = models.IntegerField()  # GAUL code of the admin1 district (province, state etc)
     country = models.TextField()  # Country name
