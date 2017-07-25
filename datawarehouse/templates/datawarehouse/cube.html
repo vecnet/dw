@@ -10,7 +10,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/
 {% endcomment %}
-
+{% load static %}
 {% block page_title %}
         Data Warehouse: Cube Browser
 {% endblock %}
@@ -31,7 +31,7 @@
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/TableTools/media/js/ZeroClipboard.js"></script>
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/colorpicker/js/bootstrap-colorpicker.js"></script>
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/js/beautify.js"></script>
-    <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/js/warehouseBrowserUI.js?2"></script>
+    <script type="text/javascript" charset="utf-8" src="{% static 'datawarehouse/js/warehouseBrowserUI.js' %}?3"></script>
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/js/HighCharts_toolbar.js?2"></script>
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/jQuery-File-Upload-jquery-ui/js/jquery.iframe-transport.js"></script>
     <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}datawarehouse/jQuery-File-Upload-jquery-ui/js/jquery.fileupload.js"></script>
