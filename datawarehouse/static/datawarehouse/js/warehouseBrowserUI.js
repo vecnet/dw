@@ -909,9 +909,9 @@ function create_output(type){
  * This will also filter the y and x data so that only those datasets are shows*/
 function parseDataToChart(element,data,xData,yData){
     var xTitle = "";
-    // Removed chart title per request from Arif
-    var Title = "Chart"; // data['level'];
-
+    // Use cube name as chart title per request from Arif
+    // var Title = "Chart"; // data['level'];
+    var Title = $('#cube option:selected').text();
     //yData = measure_array(data);
      /*for (key in data) {             // Parse the returned data into x and y
         if (data.hasOwnProperty(key)) {
