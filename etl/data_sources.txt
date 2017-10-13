@@ -1,0 +1,42 @@
+Demographics:
+Source: World Population Prospects: 2010 File 1B: Total population (both sexes combined) by five-year age group, annually for 2011-2100, https://dl.vecnet.org/files/qn59q3974
+
+Gross National Income:
+Source:
+The World Bank: GNI per capita, Atlas method, https://dl.vecnet.org/catalog/ht24wj44s
+
+Households
+Source:
+WHO's Life expectancy by country dataset, https://dl.vecnet.org/catalog/4j03cz719
+
+Household surveys
+Source:
+World Malaria Report 2011 Annex 5 Household surveys of mosquito nets ownership and usage 2006-2010, https://dl.vecnet.org/catalog/hq37vn62g
+
+Interventions cubes
+Sources:
+World Malaria Report 2012 Annex 4: Intervention coverage estimated from routinely collected data, https://dl.vecnet.org/catalog/m613mx64s
+World Malaria Report 2015 Annex 4: Intervention coverage estimated from routinely collected data, https://dl.vecnet.org/catalog/gh93h9255
+
+Weather
+Source:
+Kisumu Weather Data, GSOD, https://dl.vecnet.org/catalog/v118rd54q
+
+Species Bionomics
+Sources:
+Expert Opinion Tables
+https://dl.vecnet.org/catalog/sb397829v
+https://dl.vecnet.org/catalog/x059c7397
+
+Entomological Parameters
+Sources:
+Entomological End Points for Vector Control
+https://dl.vecnet.org/catalog/wm117n96b
+
+ITN Coverage in Africa and IRS Coverage in Africa
+Sources:
+World Malaria Report 2012 Annex 4: Intervention coverage estimated from routinely collected data, https://dl.vecnet.org/catalog/m613mx64s
+World Malaria Report 2015 Annex 4: Intervention coverage estimated from routinely collected data, https://dl.vecnet.org/catalog/gh93h9255
+
+Representative Workflow Parameters, Vector Species Parameters, and Vector Species Sensitivity Parameters
+This is synthetic data to generate input files for EMOD model programmatically. Data is based on Species Bionomics table, model-specific parameters are determined using calibration process.
