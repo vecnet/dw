@@ -1,4 +1,4 @@
-Django==1.11.7
+Django==1.11.9
 SQLAlchemy==0.8.0
 cubes==0.10.2
 mock==1.0.1
